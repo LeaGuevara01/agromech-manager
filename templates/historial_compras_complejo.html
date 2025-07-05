@@ -1,0 +1,29 @@
+<h1 class="mb-4">Historial de Compras</h1>
+
+<form method="GET" class="row g-3 mb-4">
+    <div class="col-md-4">
+        <label class="form-label">Proveedor</label>
+        <select name="proveedor" class="form-select">
+            <option value="">-- Todos --</option>
+            {% for p in proveedores %}
+            <option value="{{ p.ID_Proveedor }}" {% if p.ID_Proveedor == proveedor_seleccionado %}selected{% endif %}>
+                {{ p.Nombre }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-4">
+        <label class="form-label">Componente</label>
+        <select name="componente" class="form-select">
+            <option value="">-- Todos --</option>
+            {% for c in componentes %}
+            <option value="{{ c.ID_Componente }}" {% if c.ID_Componente == componente_seleccionado %}selected{% endif %}>
+                {{ c.Nombre }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-4 d-flex align-items-end">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </div>
+</form>

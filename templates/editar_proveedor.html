@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Proveedor {{ proveedor.Nombre }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-light">
+<div class="container py-4">
+    <h1>Proveedor: {{ proveedor.Nombre }}</h1>
+    <a href="{{ url_for('listar_proveedores') }}" class="btn btn-secondary mb-3">← Volver</a>
+
+    <dl class="row">
+        <dt class="col-sm-3">Localidad</dt>
+        <dd class="col-sm-9">{{ proveedor.Localidad or '-' }}</dd>
+
+        <dt class="col-sm-3">Contacto</dt>
+        <dd class="col-sm-9">{{ proveedor.Contacto or '-' }}</dd>
+
+        <dt class="col-sm-3">Teléfono</dt>
+        <dd class="col-sm-9">{{ proveedor.Telefono or '-' }}</dd>
+
+        <dt class="col-sm-3">Email</dt>
+        <dd class="col-sm-9">{{ proveedor.Email or '-' }}</dd>
+
+        <dt class="col-sm-3">Rubro</dt>
+        <dd class="col-sm-9">{{ proveedor.Rubro or '-' }}</dd>
+
+        <dt class="col-sm-3">Dirección</dt>
+        <dd class="col-sm-9">{{ proveedor.Direccion or '-' }}</dd>
+
+        <dt class="col-sm-3">Observaciones</dt>
+        <dd class="col-sm-9">{{ proveedor.Observaciones or '-' }}</dd>
+    </dl>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

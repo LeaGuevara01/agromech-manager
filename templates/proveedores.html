@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Proveedores</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body class="bg-dark text-light">
+    <div class="container py-4">
+        <h1>Proveedores</h1>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary mb-3">← Volver al inicio</a>
+        <button class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#agregarProveedorModal">+ Agregar Proveedor</button>
+
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Localidad</th>
+                    <th>Contacto</th>
+                    <th>Teléfono</th>
+                    <th>Email</th>
+                    <th>Rubro</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in proveedores %}
+                <tr>
+                    <td>{{ p.Nombre }}</td>
+                    <td>{{ p.Localidad }}</td>
+                    <td>{{ p.Contacto }}</td>
+                    <td>{{ p.Telefono }}</td>
+                    <td>{{ p.Email }}</td>
+                    <td>{{ p.Rubro }}</td>
+                    <td>
+                        <a href="{{ url_for('ver_proveedor', id=p.ID) }}" class="btn btn-info btn-sm mb-1">Ver</a>
+                        <a href="{{ url_for('editar_proveedor', id=p.ID) }}" class="btn btn-warning btn-sm mb-1">Editar</a>
+                        <form action="{{ url_for('eliminar_proveedor', id=p.ID) }}" method="POST" class="d-inline mb-1" onsubmit="return confirm('¿Eliminar proveedor?');">
+                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="7" class="text-center">No hay proveedores registrados.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal Agregar Proveedor -->
+    <div class="modal fade" id="agregarProveedorModal" tabindex="-1" aria-labelledby="agregarProveedorLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <form method="POST" action="{{ url_for('agregar_proveedor') }}">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="agregarProveedorLabel">Agregar nuevo proveedor</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body">
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre *</label>
+                <input type="text" name="nombre" class="form-control" required />
+            </div>
+            <div class="mb-3">
+                <label for="localidad" class="form-label">Localidad</label>
+                <input type="text" name="localidad" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="contacto" class="form-label">Contacto</label>
+                <input type="text" name="contacto" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="telefono" class="form-label">Teléfono</label>
+                <input type="text" name="telefono" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="rubro" class="form-label">Rubro</label>
+                <input type="text" name="rubro" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="direccion" class="form-label">Dirección</label>
+                <input type="text" name="direccion" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="observaciones" class="form-label">Observaciones</label>
+                <textarea name="observaciones" class="form-control" rows="3"></textarea>
+            </div>
+            </div>
+            <div class="modal-footer">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

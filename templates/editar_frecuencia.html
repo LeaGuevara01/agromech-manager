@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Frecuencia</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark text-light">
+<div class="container py-4">
+    <h2>Editar Frecuencia para Componente {{ id_componente }}</h2>
+    <a href="{{ url_for('vista_maquina', id=id_maquina) }}" class="btn btn-secondary mb-3">← Volver</a>
+
+    <form method="POST" class="bg-white p-4 rounded shadow-sm">
+        <div class="mb-3">
+            <label for="frecuencia" class="form-label">Frecuencia</label>
+            <input type="number" name="frecuencia" id="frecuencia" class="form-control" required
+                   value="{{ frecuencia.Frecuencia if frecuencia else '' }}">
+        </div>
+        <div class="mb-3">
+            <label for="unidad_tiempo" class="form-label">Unidad de tiempo</label>
+            <select name="unidad_tiempo" id="unidad_tiempo" class="form-select" required>
+                <option value="horas" {% if frecuencia and frecuencia['Unidad tiempo'] == 'horas' %}selected{% endif %}>Horas</option>
+                <option value="días" {% if frecuencia and frecuencia['Unidad tiempo'] == 'días' %}selected{% endif %}>Días</option>
+                <option value="semanas" {% if frecuencia and frecuencia['Unidad tiempo'] == 'semanas' %}selected{% endif %}>Semanas</option>
+                <option value="meses" {% if frecuencia and frecuencia['Unidad tiempo'] == 'meses' %}selected{% endif %}>Meses</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="criterio_adicional" class="form-label">Criterio adicional</label>
+            <input type="text" name="criterio_adicional" id="criterio_adicional" class="form-control" 
+                   value="{{ frecuencia['Criterio adicional'] if frecuencia else '' }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar Frecuencia</button>
+    </form>
+</div>
+</body>
+</html>

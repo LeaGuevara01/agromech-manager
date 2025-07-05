@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Compras</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark text-white">
+<div class="container py-4">
+    <h1 class="mb-4">Historial de Compras</h1>
+    <a href="/" class="btn btn-secondary mb-3">← Volver al inicio</a>
+    <table class="table table-bordered table-hover table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Fecha</th>
+                <th>ID Compra</th>
+                <th>Proveedor</th>
+                <th>Componente</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Observación</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for compra in compras %}
+            <tr>
+                <td>{{ compra['Fecha'] }}</td>
+                <td>{{ compra['ID_Compra'] }}</td>
+                <td>{{ compra['Nombre_Proveedor'] }}</td>
+                <td>{{ compra['Nombre_Componente'] }}</td>
+                <td>{{ compra['Cantidad'] }}</td>
+                <td>${{ '%.2f' | format(compra['Precio_Unitario']) }}</td>
+                <td>{{ compra['Observacion'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

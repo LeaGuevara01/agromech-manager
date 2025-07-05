@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Principal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        h2 { margin-top: 2rem; }
+    </style>
+</head>
+<body class="bg-white">
+<div class="container py-4">
+    <h1 class="mb-4">📋 Panel de Gestión Agrícola</h1>
+
+    <div class="row">
+        <!-- Maquinaria -->
+        <div class="col-md-6">
+            <h2>🚜 Máquinas</h2>
+            <a href="{{ url_for('lista_maquinas') }}" class="btn btn-outline-primary w-100 mb-2">Listado de Máquinas</a>
+        </div>
+
+        <!-- Componentes / Inventario -->
+        <div class="col-md-6">
+            <h2>🧩 Componentes</h2>
+            <a href="{{ url_for('lista_componentes') }}" class="btn btn-outline-secondary w-100 mb-2">Listado de Componentes</a> <!-- futuro -->
+            <a href="{{ url_for('vista_stock') }}" class="btn btn-outline-success w-100 mb-2">Inventario Actual</a>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <!-- Compras y proveedores -->
+        <div class="col-md-6">
+            <h2>📦 Compras y Proveedores</h2>
+            <a href="{{ url_for('registrar_compra') }}" class="btn btn-outline-primary w-100 mb-2">Registrar Compra</a>
+            <a href="{{ url_for('listar_proveedores') }}" class="btn btn-outline-secondary w-100 mb-2">Ver Proveedores</a>
+            <a href="{{ url_for('historial_compras') }}" class="btn btn-outline-info w-100 mb-2">Historial de Compras</a>
+        </div>
+
+        <!-- Pagos y cuentas -->
+        <div class="col-md-6">
+            <h2>💵 Pagos</h2>
+            <a href="{{ url_for('registrar_pago') }}" class="btn btn-outline-primary w-100 mb-2">Registrar Pago</a>
+            <a href="{{ url_for('resumen_cuentas') }}" class="btn btn-outline-success w-100 mb-2">Resumen de Cuentas</a>
+            <a href="{{ url_for('exportar_resumen_pdf') }}" class="btn btn-outline-danger w-100 mb-2">Exportar Resumen PDF</a>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <!-- Gráficos -->
+        <div class="col-md-6">
+            <h2>📊 Gráficos</h2>
+            <a href="{{ url_for('compras_por_proveedor') }}" class="btn btn-outline-dark w-100 mb-2">Gráfico: Compras por Proveedor</a>
+            <a href="#" class="btn btn-outline-dark w-100 mb-2 disabled">Gráfico: Componente más comprado</a>
+            <a href="#" class="btn btn-outline-dark w-100 mb-2 disabled">Gráfico: Compras por mes/año</a>
+            <a href="#" class="btn btn-outline-dark w-100 mb-2 disabled">Gráfico: Cantidad por pieza</a>
+        </div>
+
+        <!-- Excel y filtros -->
+        <div class="col-md-6">
+            <h2>📁 Exportaciones y Filtros</h2>
+            <a href="#" class="btn btn-outline-secondary w-100 mb-2 disabled">Exportar historial a Excel</a>
+            <a href="#" class="btn btn-outline-secondary w-100 mb-2 disabled">Filtrar por Proveedor / Componente</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

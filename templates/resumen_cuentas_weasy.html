@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Resumen de Cuentas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Opcional: estilos extra para PDF */
+        body { background: #fff !important; }
+        .text-danger { color: #dc3545 !important; }
+        .text-success { color: #198754 !important; }
+        table { font-size: 1rem; }
+    </style>
+</head>
+<body class="bg-light">
+<div class="container py-4">
+    <h1 class="mb-4">Resumen de Cuentas con Proveedores</h1>
+    <table class="table table-bordered table-hover table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Proveedor</th>
+                <th>Total Compras</th>
+                <th>Total Pagado</th>
+                <th>Saldo Pendiente</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in resumen %}
+            <tr>
+                <td>{{ r.Nombre }}</td>
+                <td>${{ '%.2f' | format(r.Total_Compras) }}</td>
+                <td>${{ '%.2f' | format(r.Total_Pagos) }}</td>
+                <td class="{{ 'text-danger' if r.Saldo > 0 else 'text-success' }}">
+                    ${{ '%.2f' | format(r.Saldo) }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

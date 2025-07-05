@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Resumen PDF</title>
+    <style>
+        body { font-family: sans-serif; margin: 2em; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1em; }
+        th, td { border: 1px solid #444; padding: 8px; text-align: left; }
+        th { background-color: #eee; }
+        h1 { text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>Resumen de Cuentas con Proveedores</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Proveedor</th>
+                <th>Total Compras</th>
+                <th>Total Pagado</th>
+                <th>Saldo Pendiente</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in resumen %}
+            <tr>
+                <td>{{ r.Nombre }}</td>
+                <td>${{ '%.2f' | format(r.Total_Compras) }}</td>
+                <td>${{ '%.2f' | format(r.Total_Pagos) }}</td>
+                <td>${{ '%.2f' | format(r.Saldo) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

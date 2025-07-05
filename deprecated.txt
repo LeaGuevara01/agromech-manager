@@ -1,0 +1,26 @@
+# Import necessary libraries for PDF generation (DEPRECATED)
+from weasyprint import HTML
+
+# PDF Export for Summary of Accounts (DEPRECATED)
+@app.route('/resumen_cuentas_weasy/pdf')
+def exportar_resumen_pdf():
+    conn = get_db_connection()
+    resumen = conn.execute('''
+        SELECT p.ID_Proveedor, p.Nombre,
+            IFNULL(SUM(c.Cantidad * c.Precio_Unitario), 0) AS Total_Compras,
+            IFNULL(SUM(pg.Monto), 0) AS Total_Pagos,
+            (IFNULL(SUM(c.Cantidad * c.Precio_Unitario), 0) - IFNULL(SUM(pg.Monto), 0)) AS Saldo
+        FROM proveedores p
+        LEFT JOIN compras c ON p.ID_Proveedor = c.ID_Proveedor
+        LEFT JOIN pagos_proveedores pg ON p.ID_Proveedor = pg.ID_Proveedor
+        GROUP BY p.ID_Proveedor
+    ''').fetchall()
+    conn.close()
+
+    rendered_html = render_template('resumen_pdf.html', resumen=resumen)
+    pdf = HTML(string=rendered_html).write_pdf()
+
+    response = make_response(pdf)
+    response.headers['Content-Type'] = 'application/pdf'
+    response.headers['Content-Disposition'] = 'inline; filename=resumen_cuentas.pdf'
+    return response

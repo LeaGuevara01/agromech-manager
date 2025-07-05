@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Panel Principal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --agri-green: #28a745;
+            --agri-dark: #1e5631;
+            --agri-light: #e8f5e9;
+            --bg-color: #f8f9fa;
+            --text-color: #212529;
+            --card-bg: #ffffff;
+            --header-bg: linear-gradient(135deg, var(--agri-dark), var(--agri-green));
+            --hover-bg: #e8f5e9; /* Light green hover */
+            --hover-text: var(--agri-dark);
+        }
+
+        .weather-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .weather-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .weather-temp {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .weather-details {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .weather-bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            opacity: 0.1;
+            font-size: 6rem;
+            line-height: 1;
+            z-index: 0;
+        }
+ 
+        /* Custom text colors */
+        .text-agri-primary {
+            color: var(--agri-green) !important;
+        }
+
+        .text-agri-secondary {
+            color: var(--agri-dark) !important;
+        }
+
+        /* Apply to specific elements */
+        .card-section h3,
+        .section-title,
+        .weather-temp {
+            color: var(--agri-green);
+        }
+
+        .weather-details,
+        .disabled-feature {
+            color: var(--text-color);
+            opacity: 0.9;
+        }
+
+        /* Button hover effects */
+        .btn-dashboard:hover {
+            background-color: var(--agri-green) !important;
+            color: white !important;
+            transform: translateX(5px);
+        }
+
+        /* Card hover effects */
+        .card-section:hover {
+            border-left-color: var(--agri-dark);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Weather card specific hover */
+        .weather-card:hover .weather-bg {
+            opacity: 0.15;
+            transform: scale(1.05);
+        }
+
+        /* Light and Dark Theme Variables */
+        [data-bs-theme="light"] {
+            --bg-color: #f8f9fa;
+            --text-color: #212529;
+            --card-bg: #ffffff;
+            --header-bg: linear-gradient(135deg, var(--agri-dark), var(--agri-green));
+            --agri-light: #e8f5e9;
+            --hover-bg: #e8f5e9; /* Light green hover */
+            --hover-text: var(--agri-dark);
+        }
+
+        [data-bs-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #f8f9fa;
+            --card-bg: #2c2c2c;
+            --header-bg: linear-gradient(135deg, #0d2d14, #1a5632);
+            --agri-light: #2d2d2d;
+            --hover-bg: #1a5632; /* Dark green hover */
+            --hover-text: white;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .dashboard-header {
+            background: var(--header-bg);
+            color: whitesmoke;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .card-section {
+            background: var(--card-bg);
+            color: var(--text-color);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+            border-left: 4px solid var(--agri-green);
+        }
+
+        .card-section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+
+        .section-title {
+            color: var(--agri-green);
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-dashboard {
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+            padding: 0.75rem;
+            font-weight: 500;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            background-color: var(--bg-color);
+        }
+
+        .btn-dashboard i {
+            font-size: 1.25rem;
+        }
+
+        .disabled-feature {
+            opacity: 0.6;
+            position: relative;
+        }
+
+        .disabled-feature::after {
+            content: "Próximamente";
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--agri-green);
+            color: white;
+            font-size: 0.6rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+        }
+
+        .theme-toggle:focus {
+            outline: none;
+        }
+
+        /* Smooth transitions for all interactive elements */
+        .btn-dashboard,
+        .card-section,
+        .weather-card {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .hover-text {
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .btn-dashboard:hover .hover-text {
+            transform: translateX(3px);
+        }
+
+        .disabled-feature:hover {
+        cursor: not-allowed;
+        background-color: inherit !important;
+        color: inherit !important;
+        transform: none !important;
+        }
+
+        .weather-icon {
+        font-size: 4rem;
+        margin: 0.5rem 0;
+        }
+
+        .weather-temp {
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+
+        .bg-agri-green {
+            background-color: var(--agri-green);
+            color: white;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container py-4">
+    <div class="dashboard-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <h1 class="text-white mb-1"><i class="bi bi-clipboard2-data"></i> Panel de Gestión Agrícola</h1>
+                <!-- Keep white for contrast against gradient -->
+                <p class="text-white mb-0 opacity-75">Control completo de su operación agrícola</p>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <div class="badge bg-light text-dark fs-6">
+                    <i class="bi bi-calendar3"></i> <span id="current-date"></span>
+                </div>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="bi bi-moon-fill" id="themeIcon"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Widget del Clima -->
+        <div class="card clima-card">
+            <div class="card-header bg-agri-primary text-white">
+                <i class="bi bi-cloud-sun"></i> Clima en Ucacha
+            </div>
+            <div class="card-body text-center" id="clima-container">
+                <!-- Esto se llenará con JavaScript -->
+                <div class="spinner-border text-agri-primary" role="status">
+                    <span class="visually-hidden">Cargando...</span>
+                </div>
+            </div>
+            <div class="card-footer text-muted small">
+                Última actualización: <span id="clima-timestamp">--:--</span>
+            </div>
+        </div>
+
+        <script>
+        // Función para cargar datos climáticos
+        function cargarClima() {
+            fetch('/api/clima')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const clima = data.data;
+                        document.getElementById('clima-container').innerHTML = `
+                            <div class="weather-icon display-1">
+                                <i class="bi ${clima.icono}"></i>
+                            </div>
+                            <h3>${clima.temperatura}°C</h3>
+                            <p>${clima.condicion}</p>
+                            <div class="row">
+                                <div class="col">
+                                    <i class="bi bi-droplet"></i> ${clima.humedad}%
+                                </div>
+                                <div class="col">
+                                    <i class="bi bi-wind"></i> ${clima.viento_kmh} km/h
+                                </div>
+                            </div>
+                        `;
+                        document.getElementById('clima-timestamp').textContent = 
+                            new Date().toLocaleTimeString();
+                    } else {
+                        mostrarErrorClima(data.message);
+                    }
+                })
+                .catch(error => {
+                    mostrarErrorClima(error.message);
+                });
+        }
+
+        function mostrarErrorClima(mensaje) {
+            document.getElementById('clima-container').innerHTML = `
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    ${mensaje || 'Error al cargar datos climáticos'}
+                </div>
+            `;
+        }
+
+        // Cargar al inicio y cada 30 minutos
+        document.addEventListener('DOMContentLoaded', () => {
+            cargarClima();
+            setInterval(cargarClima, 30 * 60 * 1000);
+        });
+        </script>
+        <!-- Maquinaria -->
+        <div class="col-lg-6">
+            <div class="card-section h-100">
+                <h3 class="section-title">
+                    <i class="bi bi-tractor"></i>Maquinaria</h3>
+                <a href="{{ url_for('lista_maquinas') }}" class="btn btn-dashboard btn-outline-primary">
+                    <i class="bi bi-list-ul"></i>
+                    <span class="hover-text">Listado de Máquinas</span></a>
+            </div>
+        </div>
+
+        <!-- Componentes / Inventario -->
+        <div class="col-lg-6">
+            <div class="card-section h-100">
+                <h3 class="section-title">
+                    <i class="bi bi-puzzle"></i> Componentes</h3>
+                <a href="{{ url_for('lista_componentes') }}" class="btn btn-dashboard btn-outline-secondary">
+                    <i class="bi bi-boxes"></i> Listado de Componentes</a>
+                <a href="{{ url_for('vista_stock') }}" class="btn btn-dashboard btn-outline-success">
+                    <i class="bi bi-clipboard2-check"></i> Inventario Actual
+                </a>
+            </div>
+        </div>
+
+        <!-- Compras y proveedores -->
+        <div class="col-lg-6">
+            <div class="card-section h-100">
+                <h3 class="section-title ">
+                    <i class="bi bi-cart-plus"></i> Compras y Proveedores</h3>
+                <a href="{{ url_for('registrar_compra') }}" class="btn btn-dashboard btn-outline-primary">
+                    <i class="bi bi-journal-plus"></i> Registrar Compra</a>
+                <a href="{{ url_for('listar_proveedores') }}" class="btn btn-dashboard btn-outline-secondary">
+                    <i class="bi bi-people"></i> Ver Proveedores</a>
+                <a href="{{ url_for('historial_compras') }}" class="btn btn-dashboard btn-outline-info">
+                    <i class="bi bi-clock-history"></i> Historial de Compras</a>
+            </div>
+        </div>
+
+        <!-- Pagos y cuentas -->
+        <div class="col-lg-6">
+            <div class="card-section h-100">
+                <h3 class="section-title "><i class="bi bi-cash-stack"></i> Pagos</h3>
+                <a href="{{ url_for('registrar_pago') }}" class="btn btn-dashboard btn-outline-primary">
+                    <i class="bi bi-wallet2"></i> Registrar Pago</a>
+                <a href="{{ url_for('resumen_cuentas') }}" class="btn btn-dashboard btn-outline-success">
+                    <i class="bi bi-file-earmark-text"></i> Resumen de Cuentas</a>
+                <a href="{{ url_for('exportar_resumen_pdf') }}" class="btn btn-dashboard btn-outline-danger">
+                    <i class="bi bi-file-earmark-pdf"></i> Exportar PDF</a>
+            </div>
+        </div>
+
+        <!-- Gráficos -->
+        <div class="col-lg-6">
+            <div class="card-section h-100">
+                <h3 class="section-title ">
+                    <i class="bi bi-bar-chart"></i> Análisis Visual</h3>
+                <a href="{{ url_for('compras_por_proveedor') }}" class="btn btn-dashboard btn-outline-dark">
+                    <i class="bi bi-pie-chart"></i> Compras por Proveedor</a>
+                <a href="#" class="btn btn-dashboard btn-outline-dark disabled-feature">
+                    <i class="bi bi-graph-up"></i> Componente más comprado</a>
+                <a href="#" class="btn btn-dashboard btn-outline-dark disabled-feature">
+                    <i class="bi bi-calendar-month"></i> Compras por mes/año</a>
+                <a href="#" class="btn btn-dashboard btn-outline-dark disabled-feature">
+                    <i class="bi bi-box-seam"></i> Cantidad por pieza</a>
+            </div>
+        </div>
+
+        <!-- Excel y filtros -->
+        <div class="col-lg-6">
+            <div class="card-section h-100">
+                <h3 class="section-title ">
+                    <i class="bi bi-file-excel"></i> Exportaciones</h3>
+                <a href="#" class="btn btn-dashboard btn-outline-secondary disabled-feature">
+                    <i class="bi bi-file-earmark-excel"></i> Exportar a Excel</a>
+                <a href="#" class="btn btn-dashboard btn-outline-secondary disabled-feature">
+                    <i class="bi bi-funnel"></i> Filtros Avanzados</a>
+                <div class="mt-3 pt-2 border-top">
+                    <small class="text-muted">
+                        <i class="bi bi-info-circle"></i> Próximas características en desarrollo</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="text-center mt-5">
+    <p class="text-muted">&copy; Leandro Guevara. Todos los derechos reservados.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Theme Toggle Logic
+    const themeToggle = document.getElementById('themeToggle');
+    const themeIcon = document.getElementById('themeIcon');
+    const htmlElement = document.documentElement;
+
+    // Check for saved theme preference
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    if (savedTheme === 'dark') {
+        htmlElement.setAttribute('data-bs-theme', 'dark');
+        themeIcon.classList.replace('bi-moon-fill', 'bi-sun-fill');
+    }
+
+    // Toggle theme
+    themeToggle.addEventListener('click', () => {
+        if (htmlElement.getAttribute('data-bs-theme') === 'dark') {
+            htmlElement.removeAttribute('data-bs-theme');
+            themeIcon.classList.replace('bi-sun-fill', 'bi-moon-fill');
+            localStorage.setItem('theme', 'light');
+        } else {
+            htmlElement.setAttribute('data-bs-theme', 'dark');
+            themeIcon.classList.replace('bi-moon-fill', 'bi-sun-fill');
+            localStorage.setItem('theme', 'dark');
+        }
+    });
+
+    // Display current date
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('current-date').textContent = new Date().toLocaleDateString('es-ES', options);
+    
+    // Add animation to cards on load
+    document.addEventListener('DOMContentLoaded', () => {
+        const cards = document.querySelectorAll('.card-section');
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.opacity = '1';
+            }, index * 100);
+        });
+    });
+    
+    // Add animation to cards on load
+    document.addEventListener('DOMContentLoaded', () => {
+        const cards = document.querySelectorAll('.card-section');
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.style.opacity = '1';
+            }, index * 100);
+        });
+    });
+
+</script>
+</body>
+</html>

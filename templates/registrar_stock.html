@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrar Movimiento de Stock</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container py-4">
+        <h1 class="mb-4">Registrar Movimiento de Stock</h1>
+        <a href="{{ url_for('vista_stock') }}" class="btn btn-secondary mb-3">← Volver al stock</a>
+        <form method="POST">
+            <div class="mb-3">
+                <label for="id_componente" class="form-label">Componente</label>
+                <select name="id_componente" class="form-select" required>
+                    {% for c in componentes %}
+                    <option value="{{ c['ID_Componente'] }}">{{ c['Nombre'] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="cantidad" class="form-label">Cantidad</label>
+                <input type="number" class="form-control" name="cantidad" min="1" required>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Tipo</label>
+                <select name="tipo" class="form-select" required>
+                    <option value="entrada">Entrada (compra)</option>
+                    <option value="salida">Salida (uso en máquina)</option>
+                </select>
+            </div>
+
+            <div class="mb-3">
+                <label for="observacion" class="form-label">Observación</label>
+                <input type="text" class="form-control" name="observacion" placeholder="Opcional">
+            </div>
+
+            <button type="submit" class="btn btn-success">Registrar movimiento</button>
+        </form>
+    </div>
+</body>
+</html>
